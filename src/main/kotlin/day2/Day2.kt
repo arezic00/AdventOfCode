@@ -85,9 +85,7 @@ class Day2 {
     }
 
     private fun sumPossibleGameIDs(games: List<Game>) : Int {
-        var sum = 0
-        games.forEach { if (isGamePossible(it)) sum += it.id }
-        return sum
+        return games.sumOf { if (isGamePossible(it)) it.id else 0 }
     }
 
     fun solvePart1(filename: String) : Int {
