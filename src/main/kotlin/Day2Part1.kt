@@ -7,6 +7,7 @@ const val BLUE_MAX = 14
 fun main() {
     val day2 = Day2Part1()
     println(day2.solvePart1("ChallengeResources/day2_puzzle_input.txt"))
+    println(day2.solvePart2("ChallengeResources/day2_puzzle_input.txt"))
 }
 
 class Day2Part1 {
@@ -89,6 +90,38 @@ class Day2Part1 {
     fun solvePart1(filename: String) : Int {
         return sumPossibleGameIDs(linesToGames(readFileLines(filename)))
     }
+
+    fun solvePart2(filename: String) : Int {
+        return sumPowerOfSets(linesToGames(readFileLines(filename)))
+    }
+
+    private fun maxBlueCubes(game: Game) : Int {
+        var max = 0
+        game.handfuls.forEach { if (it.blue > max) max = it.blue }
+        return max
+    }
+
+    private fun maxRedCubes(game: Game) : Int {
+        var max = 0
+        game.handfuls.forEach { if (it.red > max) max = it.red }
+        return max
+    }
+
+    private fun maxGreenCubes(game: Game) : Int {
+        var max = 0
+        game.handfuls.forEach { if (it.green > max) max = it.green }
+        return max
+    }
+
+    private fun powerOfSet(game: Game) : Int {
+        return maxBlueCubes(game) * maxGreenCubes(game) * maxRedCubes(game)
+    }
+
+    private fun sumPowerOfSets(games: List<Game>) : Int {
+        return games.sumOf { powerOfSet(it) }
+    }
+
+
 }
 
 data class Game(val id: Int, val handfuls: List<HandfulOfCubes>)
