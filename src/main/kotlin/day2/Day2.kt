@@ -1,16 +1,19 @@
+package day2
+
 import java.io.File
 import java.nio.charset.Charset
 
-const val RED_MAX = 12
-const val GREEN_MAX = 13
-const val BLUE_MAX = 14
 fun main() {
-    val day2 = Day2Part1()
+    val day2 = Day2()
     println(day2.solvePart1("ChallengeResources/day2_puzzle_input.txt"))
     println(day2.solvePart2("ChallengeResources/day2_puzzle_input.txt"))
 }
 
-class Day2Part1 {
+class Day2 {
+
+    private val RED_MAX = 12
+    private val GREEN_MAX = 13
+    private val BLUE_MAX = 14
 
     private fun readFileLines(filename: String) = File(filename).readLines(Charset.defaultCharset())
 
