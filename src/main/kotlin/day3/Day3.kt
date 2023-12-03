@@ -10,17 +10,17 @@ fun main() {
 class Day3 {
     private fun parse(lines: List<String>): MutableList<Number> {
         val numbers = mutableListOf<Number>()
-        var prePreviousSymbolIndexes = mutableListOf<Int>()
+        var prePreviousIndexedSymbols = mutableMapOf<Int,Char>()
         var previousNumbers = mutableMapOf<Int, String>()
-        var previousSymbolIndexes = mutableListOf<Int>()
+        var previousIndexedSymbols = mutableMapOf<Int,Char>()
         lines.forEach { line ->
             val indexedNumbers = mutableMapOf<Int, String>()
-            val symbolIndexes = mutableListOf<Int>()
+            val indexedSymbols = mutableMapOf<Int,Char>()
             var i = 0
             while (i < line.length) {
                 if (line[i] != '.') {
                     if (!(line[i].isDigit())) {
-                        symbolIndexes.add(i++)
+                        indexedSymbols[i++] = line[i]
                         continue
                     }
                     val index = i
@@ -36,21 +36,21 @@ class Day3 {
                 val leftIndex = it.key - 1
                 val rightIndex = it.key + it.value.length
                 val isPartNumber =
-                    prePreviousSymbolIndexes.any { it in leftIndex..rightIndex } ||
-                    previousSymbolIndexes.any { it == leftIndex || it == rightIndex } ||
-                    symbolIndexes.any { it in leftIndex..rightIndex }
+                    prePreviousIndexedSymbols.any { it.key in leftIndex..rightIndex } ||
+                    previousIndexedSymbols.any { it.key == leftIndex || it.key == rightIndex } ||
+                    indexedSymbols.any { it.key in leftIndex..rightIndex }
                 numbers.add(Number(it.value.toInt(),isPartNumber))
             }
-            prePreviousSymbolIndexes = previousSymbolIndexes
-            previousSymbolIndexes = symbolIndexes
+            prePreviousIndexedSymbols = previousIndexedSymbols
+            previousIndexedSymbols = indexedSymbols
             previousNumbers = indexedNumbers
         }
         previousNumbers.forEach {
             val leftIndex = it.key - 1
             val rightIndex = it.key + it.value.length
             val isPartNumber =
-                prePreviousSymbolIndexes.any { it in leftIndex..rightIndex } ||
-                previousSymbolIndexes.any { it == leftIndex || it == rightIndex }
+                prePreviousIndexedSymbols.any { it.key in leftIndex..rightIndex } ||
+                previousIndexedSymbols.any { it.key == leftIndex || it.key == rightIndex }
             numbers.add(Number(it.value.toInt(),isPartNumber))
         }
         return numbers
